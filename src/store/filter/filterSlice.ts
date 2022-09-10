@@ -5,7 +5,11 @@ export type Option =
   | 'Выполненные'
   | 'Не выполненные';
 
-const initialState: { option: Option } = {
+export interface FilterState {
+  option: Option;
+}
+
+const initialState: FilterState = {
   option: 'Показывать все задания',
 };
 

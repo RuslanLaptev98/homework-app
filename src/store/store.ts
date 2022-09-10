@@ -1,16 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { filterReducer } from './filter/filterSlice';
-import { Option } from './filter/filterSlice';
+import { FilterState, filterReducer } from './filter/filterSlice';
+import { tasksReducer, TasksState } from './tasks/tasksSlice';
 
 export interface State {
-  filter: {
-    option: Option;
-  };
+  filter: FilterState;
+  tasks: TasksState;
 }
 
 const store = configureStore({
   reducer: {
     filter: filterReducer,
+    tasks: tasksReducer,
   },
 });
 
