@@ -1,10 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import OptionsModal from '../../ui/OptionsModal';
 import { useSelector, useDispatch } from 'react-redux';
 import { State } from '../../store/store';
 import { filterActions, Option } from '../../store/filter/filterSlice';
+import { Fonts } from '../../styles/fonts';
+import { Colors } from '../../styles/colors';
 
 const filterOptions: Option[] = [
   'Показывать все задания',
@@ -17,23 +19,25 @@ const Filter: React.FC = () => {
   const { option } = useSelector((state: State) => state.filter);
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const onModalOpen = () => setModalVisible(true);
-  const onModalClose = (value: Option) => {
+  const openModal = () => setModalVisible(true);
+  const closeModal = () => setModalVisible(false);
+  const onSelectOption = (value: Option) => {
     dispatch(filterActions.changeFilter(value));
     setModalVisible(false);
   };
 
   return (
     <View style={styles.container}>
-      <Pressable style={styles.pressable} onPress={onModalOpen}>
+      <TouchableOpacity style={styles.pressable} onPress={openModal}>
         <Text style={styles.text}>{option}</Text>
-      </Pressable>
+      </TouchableOpacity>
 
       <OptionsModal
         modalVisible={modalVisible}
-        onModalClose={onModalClose}
+        onSelectOption={onSelectOption}
         selected={option}
         options={filterOptions}
+        closeModal={closeModal}
       />
     </View>
   );
@@ -46,6 +50,8 @@ const styles = StyleSheet.create({
     padding: 16,
     justifyContent: 'center',
     alignItems: 'center',
+    borderBottomColor: Colors.line_darker,
+    borderBottomWidth: 1,
   },
   pressable: {
     width: '100%',
@@ -53,13 +59,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#3785CC',
+    borderColor: Colors.blue,
     borderRadius: 8,
   },
   text: {
     fontSize: 14,
-    fontFamily: 'Inter-Medium',
-    color: '#3785CC',
+    fontFamily: Fonts.InterMedium,
+    color: Colors.blue,
   },
 });
 

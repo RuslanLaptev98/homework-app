@@ -2,50 +2,63 @@ import React, { PropsWithChildren } from 'react';
 import {
   View,
   Text,
-  Pressable,
   Modal,
   StyleSheet,
   FlatList,
+  TouchableOpacity,
+  NativeSyntheticEvent,
+  TouchableWithoutFeedback,
 } from 'react-native';
+import { Colors } from '../../styles/colors';
+import { Fonts } from '../../styles/fonts';
 
 interface OptionsModalProps<T> {
   modalVisible: boolean;
   options: T[];
   selected: T;
-  onModalClose: (value: T) => void;
+  onSelectOption: (value: T) => void;
+  closeModal: (event?: NativeSyntheticEvent<any>) => void;
 }
 
 const OptionsModal = <OptionType extends string>({
   modalVisible,
-  onModalClose,
+  onSelectOption,
   options,
   selected,
+  closeModal,
 }: PropsWithChildren<OptionsModalProps<OptionType>>): JSX.Element => {
   return (
-    <Modal visible={modalVisible} animationType='fade' transparent={true}>
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <FlatList
-            data={options}
-            renderItem={(option) => (
-              <Pressable
-                onPress={() => onModalClose(option.item)}
-                style={styles.option}
-              >
-                <Text
-                  style={
-                    selected === option.item
-                      ? { ...styles.optionText, ...styles.optionTextActive }
-                      : styles.optionText
-                  }
+    <Modal
+      visible={modalVisible}
+      animationType='fade'
+      transparent={true}
+      onRequestClose={closeModal}
+    >
+      <TouchableOpacity style={styles.centeredView} onPress={closeModal}>
+        <TouchableWithoutFeedback>
+          <View style={styles.modalView}>
+            <FlatList
+              data={options}
+              renderItem={(option) => (
+                <TouchableOpacity
+                  onPress={() => onSelectOption(option.item)}
+                  style={styles.option}
                 >
-                  {option.item}
-                </Text>
-              </Pressable>
-            )}
-          />
-        </View>
-      </View>
+                  <Text
+                    style={
+                      selected === option.item
+                        ? { ...styles.optionText, ...styles.optionTextActive }
+                        : styles.optionText
+                    }
+                  >
+                    {option.item}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+        </TouchableWithoutFeedback>
+      </TouchableOpacity>
     </Modal>
   );
 };
@@ -54,11 +67,11 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    backgroundColor: Colors.background_modal_outer,
   },
   modalView: {
     borderRadius: 14,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
     overflow: 'hidden',
     margin: 8,
   },
@@ -67,16 +80,16 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(249, 249, 249, 0.94)',
+    backgroundColor: Colors.background_modal,
     marginBottom: 1,
   },
   optionText: {
     fontSize: 16,
-    fontFamily: 'Inter-Medium',
-    color: '#737A82',
+    fontFamily: Fonts.InterMedium,
+    color: Colors.text_lighter,
   },
   optionTextActive: {
-    color: '#3785CC',
+    color: Colors.blue,
   },
 });
 

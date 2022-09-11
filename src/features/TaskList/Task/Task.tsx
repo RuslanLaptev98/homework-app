@@ -7,6 +7,8 @@ import {
 import { useDispatch } from 'react-redux';
 import CompletedButton from '../../../ui/CompletedButton';
 import DeleteButton from '../../../ui/DeleteButton';
+import { Fonts } from '../../../styles/fonts';
+import { Colors } from '../../../styles/colors';
 
 interface TaskProps {
   task: TaskType;
@@ -36,7 +38,15 @@ const Task: React.FC<TaskProps> = ({ task }) => {
 
       <View style={styles.content}>
         <Text style={styles.title}>{task.title}</Text>
-        <Text style={styles.task}>{task.task}</Text>
+        <Text
+          style={
+            task.completed
+              ? { ...styles.task, ...styles.taskCompleted }
+              : styles.task
+          }
+        >
+          {task.task}
+        </Text>
       </View>
 
       <DeleteButton onPress={removeTask} />
@@ -51,7 +61,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#EEF8FD',
+    borderBottomColor: Colors.line_lighter,
   },
   content: {
     width: 0,
@@ -60,14 +70,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   title: {
-    fontFamily: 'Inter-Medium',
+    fontFamily: Fonts.InterMedium,
     fontSize: 17,
     paddingBottom: 2,
+    color: Colors.text_main,
   },
   task: {
-    fontFamily: 'Inter-Regular',
+    fontFamily: Fonts.InterRegular,
     fontSize: 13,
     lineHeight: 17,
+    color: Colors.text_main,
+  },
+  taskCompleted: {
+    textDecorationLine: 'line-through',
+    color: Colors.text_lighter_2,
   },
 });
 

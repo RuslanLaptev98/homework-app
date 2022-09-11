@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, FlatList, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import store, { State } from '../../store/store';
-import { fetchTasks, tasksActions } from '../../store/tasks/tasksSlice';
+import { fetchTasks, Task as TaskType } from '../../store/tasks/tasksSlice';
 import { useEffect } from 'react';
 import Task from './Task';
 
@@ -14,16 +14,14 @@ const TaskList: React.FC = () => {
   }, []);
 
   const { tasks, loading, error } = useSelector((state: State) => state.tasks);
+  const { option } = useSelector((state: State) => state.filter);
 
-  const addTaskHandler = () => {
-    dispatch(
-      tasksActions.addTask({
-        task: 'Сделать дз',
-        title: 'Английский',
-        completed: false,
-      })
-    );
-  };
+  const filteredTasks: TaskType[] =
+    option === 'Выполненные'
+      ? tasks.filter((task) => task.completed)
+      : option === 'Не выполненные'
+      ? tasks.filter((task) => !task.completed)
+      : tasks;
 
   return (
     <View style={styles.container}>
@@ -31,7 +29,7 @@ const TaskList: React.FC = () => {
       {!loading && error && <Text>{error}</Text>}
       {!loading && !error && (
         <FlatList
-          data={tasks}
+          data={filteredTasks}
           renderItem={(task) => <Task task={task.item} />}
         />
       )}

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { TickSquare } from 'iconsax-react-native';
+import { Colors } from '../../styles/colors';
 
 interface CompletedButtonProps {
   completed: boolean;
@@ -12,13 +13,13 @@ const CompletedButton: React.FC<CompletedButtonProps> = ({
   completionHandler,
 }) => {
   return (
-    <Pressable style={styles.container} onPress={completionHandler}>
+    <TouchableOpacity style={styles.container} onPress={completionHandler}>
       {completed ? (
-        <TickSquare size={30} color='#469D3E' variant='Bold' />
+        <TickSquare size={30} color={Colors.green} variant='Bold' />
       ) : (
-        <TickSquare size={30} color='#292D32' variant='TwoTone' />
+        <TickSquare size={30} color={Colors.dark_gray} variant='TwoTone' />
       )}
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

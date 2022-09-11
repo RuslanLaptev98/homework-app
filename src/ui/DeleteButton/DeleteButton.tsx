@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Pressable } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Trash } from 'iconsax-react-native';
+import { Colors } from '../../styles/colors';
 
 interface DeleteButtonProps {
   onPress: () => void;
@@ -8,15 +9,15 @@ interface DeleteButtonProps {
 
 const DeleteButton: React.FC<DeleteButtonProps> = ({ onPress }) => {
   return (
-    <Pressable style={styles.container} onPress={onPress}>
-      <Trash size={24} color='#6F767E' variant='Linear' />
-    </Pressable>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
+      <Trash size={24} color={Colors.text_lighter_2} variant='Linear' />
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F8F8F8',
+    backgroundColor: Colors.gray,
     borderRadius: 8,
     width: 40,
     height: 40,
